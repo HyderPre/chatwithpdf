@@ -1,0 +1,8 @@
+Flask==3.0.0
+Flask-CORS==4.0.0
+Gunicorn==21.2.0
+PyPDF2==3.0.1
+langchain==0.3.17
+langchain-community==0.3.16
+Groq==0.5.0
+python-dotenv==1.0.1
