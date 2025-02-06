@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with PDF</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Chat with PDF</h1>
+
+        <!-- 📤 PDF Upload Form -->
+        <form id="pdf-form">
+            <input type="file" id="pdf-file" accept=".pdf" required>
+            <button type="submit">Upload PDF</button>
+        </form>
+
+        <!-- 💬 Chat Messages -->
+        <div class="chat-messages" id="chat-messages"></div>
+
+        <!-- 📩 Chat Input -->
+        <form id="chat-form">
+            <input type="text" id="chat-input" placeholder="Ask a question about the PDF..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+/* 🎨 General Styling */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* 📦 Container */
+/* 📦 Updated Container */
+.container {
+  width: 90%;
+  max-width: 900px; /* Increased max-width for rectangular shape */
+  min-height: 80vh; /* Increased height to prevent square shape */
+  background: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+/* 📝 Headers */
+h1, h2 {
+  text-align: center;
+  color: #333;
+}
+
+/* 📤 Form Styling */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* 🎯 Inputs */
+input[type="file"], input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* 🎛️ Buttons */
+button {
+  padding: 10px 15px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #555;
+}
+
+/* 💬 Chat Messages */
+.chat-messages {
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  background: #fff;
+}
+
+/* 🗨️ Chat Bubbles */
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  width: fit-content;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+/* 👤 User Message */
+.user-message {
+  background-color: #dbeafe;
+  text-align: right;
+  margin-left: auto;
+}
+
+/* 🤖 AI Message */
+.bot-message {
+  background-color: #f0f0f0;
+  text-align: left;
+}
+
+/* 📱 Mobile Optimization */
+@media (max-width: 600px) {
+  .container {
+      width: 95%;
+      padding: 15px;
+  }
+
+  form {
+      flex-direction: column;
+      align-items: stretch;
+  }
+
+  input[type="file"], input[type="text"] {
+      width: 100%;
+  }
+
+  button {
+      width: 100%;
+      margin-top: 5px;
+  }
+
+  .chat-messages {
+      height: 250px;
+  }
+}
