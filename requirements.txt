@@ -101,6 +101,8 @@ networkx==3.4.2
 
 # numpy==2.0.1
 numpy==1.26.4
+gunicorn==21.2.0
+
 
 oauthlib==3.2.2
 openai==1.61.0
