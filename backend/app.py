@@ -114,10 +114,22 @@ def load_pdf_text(pdf_path):
         return []
 
 # Home Page
+# @app.route("/")
+# def index():
+#     if current_user.is_authenticated:
+#         return render_template("index.html", email=current_user.email)
+#     return redirect(url_for("google.login"))
+
 @app.route("/")
 def index():
     if current_user.is_authenticated:
-        return render_template("index.html", email=current_user.email)
+        # Check if user data exists in session, otherwise use current_user data
+        user_data = session.get('user', {
+            'name': current_user.name,
+            'email': current_user.email,
+            'photo': current_user.profile_pic  # Using profile_pic from User model
+        })
+        return render_template("index.html", user_data=user_data)
     return redirect(url_for("google.login"))
 
 @app.route("/google/authorized")
@@ -142,6 +154,17 @@ def google_authorized():
         email = user_info["email"]
         name = user_info.get("name")
         profile_pic = user_info.get("picture")
+        # print(f"Setting session user: {email}")
+
+
+        # PASTE THE SESSION STORAGE CODE HERE
+        session['user'] = {
+            "name": name,
+            "email": email,
+            "photo": profile_pic  # Using profile_pic variable which is the same as picture
+        }
+        session.modified = True
+        # END OF PASTED CODE
 
         # Debug table structure before query
         try:

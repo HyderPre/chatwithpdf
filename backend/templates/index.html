@@ -36,7 +36,7 @@
                     <h1>Chat with your PDF</h1>
                     <p>Upload a PDF and start asking questions</p>
                 </div>
-                <div class="user-profile">
+                <!-- <div class="user-profile">
                     <button class="user-avatar" id="user-button">HP </button>
                     <div class="user-dropdown" id="user-dropdown">
                         <ul>
@@ -45,7 +45,27 @@
                             <li id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</li>
                         </ul>
                     </div>
+                </div> -->
+                <div class="user-profile">
+                    {% if user_data.photo %}
+                        <button class="user-avatar" id="user-button">
+                            <img src="{{ user_data.photo }}" alt="User Photo" style="border-radius: 50%; width: 35px; height: 35px;">
+                        </button>
+                    {% else %}
+                        <button class="user-avatar" id="user-button">
+                            {{ user_data.name|default('HP', true)|first|upper }}{{ user_data.name|default('HP', true)|split(' ')|last|first|upper if ' ' in user_data.name|default('', true) }}
+                        </button>
+                    {% endif %}
+                
+                    <div class="user-dropdown" id="user-dropdown">
+                        <ul>
+                            <li><i class="fas fa-user-cog"></i> Settings</li>
+                            <li><i class="fas fa-crown"></i> Buy Premium</li>
+                            <li id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</li>
+                        </ul>
+                    </div>
                 </div>
+                
                 
             </header>
 
