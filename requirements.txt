@@ -98,12 +98,8 @@ mypy-extensions==1.0.0
 mysql-connector-python==9.0.0
 narwhals==1.24.1
 networkx==3.4.2
-
-# numpy==2.0.1
 numpy==1.26.4
 gunicorn==21.2.0
-
-
 oauthlib==3.2.2
 openai==1.61.0
 opencv-python==4.11.0.86
