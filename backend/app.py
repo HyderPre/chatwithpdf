@@ -290,6 +290,34 @@ def reset_db():
         return jsonify({"message": "Database reset successful"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route("/upload-multiple-pdfs", methods=["POST"])
+@login_required
+def upload_multiple_pdfs():
+    try:
+        if 'pdfs' not in request.files:
+            return jsonify({"error": "No files uploaded!"}), 400
+
+        files = request.files.getlist('pdfs')
+        if not files or len(files) == 0:
+            return jsonify({"error": "No files found in request!"}), 400
+
+        saved_filenames = []
+        for file in files:
+            if file.filename == "":
+                continue
+            filename = secure_filename(file.filename)
+            pdf_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            file.save(pdf_path)
+            saved_filenames.append(filename)
+
+        if len(saved_filenames) == 0:
+            return jsonify({"error": "No valid PDF files uploaded."}), 400
+
+        return jsonify({"message": "PDFs uploaded successfully!", "filenames": saved_filenames})
+    except Exception as e:
+        return jsonify({"error": f"Server error: {str(e)}"}), 500
+
 
 # Chat Endpoint - Updated for proper Markdown formatting
 @app.route("/chat", methods=["POST"])
@@ -298,18 +326,20 @@ def chat():
     try:
         data = request.json
         user_query = data.get("query")
-        pdf_filename = data.get("pdf_filename")
+        pdf_filenames = data.get("pdf_filenames", [])
 
-        if not user_query or not pdf_filename:
+        if not user_query or not pdf_filenames:
             return jsonify({"error": "Invalid input!"}), 400
+        
+        pdf_chunks=[]
+        for fname in pdf_filenames:
+             pdf_path = os.path.join(app.config["UPLOAD_FOLDER"], fname)
+             if os.path.exists(pdf_path):
+                pdf_chunks.extend(load_pdf_text(pdf_path))
+            
 
-        pdf_path = os.path.join(app.config["UPLOAD_FOLDER"], pdf_filename)
-        if not os.path.exists(pdf_path):
-            return jsonify({"error": "PDF not found!"}), 404
-
-        pdf_chunks = load_pdf_text(pdf_path)
         if not pdf_chunks:
-            return jsonify({"error": "No readable content in PDF."}), 400
+            return jsonify({"error": "No readable content in uploaded PDFs."}), 400
 
         text_content = " ".join([chunk["page_content"] for chunk in pdf_chunks])
 

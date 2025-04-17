@@ -79,18 +79,28 @@
                     </div>
 
                     <div class="pdf-upload">
-                        <label for="pdf-file">PDF Document</label>
+                        <label>PDF Documents (Max 4)</label>
+                        
+                        <!-- Where selected PDFs will be shown -->
+                        <div id="file-list" class="file-list">
+                            <!-- JS will fill this -->
+                        </div>
+                    
                         <div class="upload-container">
-                            <div class="file-input-wrapper">
-                                <input type="file" id="pdf-file" accept=".pdf" required>
-                                <div class="file-input-label">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <span id="file-name">Choose file...</span>
-                                </div>
+                            <!-- Hidden file input -->
+                            <input type="file" id="pdf-file" accept=".pdf" multiple style="display: none;" />
+                    
+                            <!-- Clickable 'Add Files' button -->
+                            <div class="file-input-label" id="add-files-btn">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Add files</span>
                             </div>
+                    
+                            <!-- Upload button -->
                             <button type="submit" id="upload-btn">Upload</button>
                         </div>
                     </div>
+                    
                 </div>
 
                 <!-- Welcome message or empty state -->

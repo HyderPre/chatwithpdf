@@ -730,3 +730,28 @@ main {
   line-height: 1.5;
   white-space: normal;
 }
+.file-list {
+  margin-top: 10px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.file-name {
+  flex-grow: 1;
+  padding-right: 10px;
+}
+
+.remove-btn {
+  background-color: transparent;
+  border: none;
+  color: red;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+
+

@@ -4,6 +4,62 @@ document.addEventListener('DOMContentLoaded', function() {
     const sendBtn = document.getElementById('send-btn');
     const fileInput = document.getElementById('pdf-file');
     const uploadBtn = document.getElementById('upload-btn');
+     // Store selected files (max 4)
+let selectedPDFFiles = [];
+
+const fileListContainer = document.getElementById('file-list');
+const addFilesBtn = document.getElementById('add-files-btn');
+
+// Handle "Add Files" button click
+addFilesBtn.addEventListener('click', () => {
+    fileInput.click();
+});
+
+// Handle file selection
+fileInput.addEventListener('change', () => {
+    const files = Array.from(fileInput.files);
+    const total = selectedPDFFiles.length + files.length;
+
+    if (total > 4) {
+        addMessage('bot', 'You can only upload up to 4 PDFs.');
+        return;
+    }
+
+    // Add new files without duplicates
+    files.forEach(file => {
+        if (!selectedPDFFiles.some(f => f.name === file.name)) {
+            selectedPDFFiles.push(file);
+        }
+    });
+
+    renderFileList();
+});
+
+// Render list of selected files
+function renderFileList() {
+    fileListContainer.innerHTML = '';
+
+    selectedPDFFiles.forEach((file, index) => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+        fileItem.innerHTML = `
+            <span class="file-name">${file.name}</span>
+            <button class="remove-btn" data-index="${index}">×</button>
+        `;
+        fileListContainer.appendChild(fileItem);
+    });
+
+    // Add event listeners for remove buttons
+    fileListContainer.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const index = parseInt(this.getAttribute('data-index'));
+            selectedPDFFiles.splice(index, 1);
+            renderFileList();
+        });
+    });
+}
+
+
 
     sendBtn.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', function(e) {
@@ -14,37 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     uploadBtn.addEventListener('click', uploadPDF);
 
-    async function sendMessage() {
-        const message = chatInput.value.trim();
-        const pdfFilename = sessionStorage.getItem('pdf_filename');
-
-        if (!message) return;
-        if (!pdfFilename) {
-            addMessage('bot', 'Please upload a PDF before asking questions.');
-            return;
-        }
-
-        addMessage('user', message);
-        chatInput.value = '';
-
-        try {
-            const response = await fetch('/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query: message, pdf_filename: pdfFilename })
-            });
-
-            const data = await response.json();
-            if (data.error) {
-                addMessage('bot', `Error: ${data.error}`);
-            } else {
-                addMessage('bot', data.response || 'No response from server.');
-            }
-        } catch (error) {
-            console.error('Chat Error:', error);
-            addMessage('bot', 'An error occurred while communicating with the server.');
-        }
-    }
 
 
     function addMessage(sender, text) {
@@ -56,33 +81,45 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function uploadPDF() {
-        const file = fileInput.files[0];
-        if (!file) {
-            addMessage('bot', 'Please select a PDF file first.');
+        if (selectedPDFFiles.length === 0) {
+            addMessage('bot', 'No files to upload.');
             return;
         }
-        
+    
+        if (selectedPDFFiles.length > 4) {
+            addMessage('bot', 'You can only upload up to 4 PDFs.');
+            return;
+        }
+    
         const formData = new FormData();
-        formData.append('pdf', file);
-
+        selectedPDFFiles.forEach(file => {
+            formData.append('pdfs', file);
+        });
+    
         try {
-            const response = await fetch('/upload-pdf', {
+            const response = await fetch('/upload-multiple-pdfs', {
                 method: 'POST',
                 body: formData
             });
-
+    
             const data = await response.json();
             if (!response.ok) {
                 throw new Error(data.error || 'Upload failed');
             }
-
-            addMessage('bot', `PDF "${file.name}" uploaded successfully!`);
-            sessionStorage.setItem('pdf_filename', data.filename);
+    
+            const names = data.filenames || [];
+            addMessage('bot', `Uploaded ${names.length} PDF(s) successfully:\n- ${names.join('\n- ')}`);
+            
+            // Save filenames for chat
+            sessionStorage.setItem('pdf_filenames', JSON.stringify(names));
+    
         } catch (error) {
             console.error('Upload Error:', error);
-            addMessage('bot', 'Failed to upload PDF.');
+            addMessage('bot', 'Failed to upload PDF(s).');
         }
     }
+    
+    
 });
 
 
@@ -171,31 +208,54 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // If you're receiving the AI responses via fetch, modify your sendMessage function
 async function sendMessage() {
+    // 1. Safely get chat input element
     const chatInput = document.getElementById('chat-input');
-    const message = chatInput.value.trim();
-    const pdfFilename = sessionStorage.getItem('pdf_filename');
-
-    if (!message) return;
-    if (!pdfFilename) {
-        addMessage('bot', 'Please upload a PDF before asking questions.');
+    if (!chatInput) {
+        console.error('Chat input element not found!');
         return;
     }
 
+    // 2. Get and validate message
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    // 3. Get and validate PDF filenames
+    let pdfFilenames = [];
+    try {
+        const storedFiles = sessionStorage.getItem('pdf_filenames');
+        pdfFilenames = storedFiles ? JSON.parse(storedFiles) : [];
+    } catch (e) {
+        console.error('Error parsing PDF filenames:', e);
+    }
+
+    if (pdfFilenames.length === 0) {
+        addMessage('bot', 'Please upload at least one PDF before asking questions.');
+        return;
+    }
+
+    // 4. Add user message and clear input
     addMessage('user', message);
     chatInput.value = '';
 
+    // 5. Send to backend
     try {
         const response = await fetch('/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: message, pdf_filename: pdfFilename })
+            body: JSON.stringify({
+                query: message,
+                pdf_filenames: pdfFilenames
+            })
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
         const data = await response.json();
         if (data.error) {
             addMessage('bot', `Error: ${data.error}`);
         } else {
-            // Use the markdown renderer for the response
             addMessage('bot', data.response || 'No response from server.');
         }
     } catch (error) {
@@ -203,6 +263,7 @@ async function sendMessage() {
         addMessage('bot', 'An error occurred while communicating with the server.');
     }
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const chatMessages = document.getElementById('chat-messages');
@@ -244,18 +305,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Cancel PDF function
-    function cancelPdf() {
-        // Clear the file input
-        fileInput.value = '';
-        document.getElementById('file-name').textContent = 'Choose file...';
+    // function cancelPdf() {
+    //     // Clear the file input
+    //     fileInput.value = '';
+    //     document.getElementById('file-name').textContent = 'Choose file...';
         
-        // Reset the PDF state
-        sessionStorage.removeItem('pdf_filename');
-        togglePdfButtons(false);
+    //     // Reset the PDF state
+    //     sessionStorage.removeItem('pdf_filename');
+    //     togglePdfButtons(false);
         
-        // Add a message to inform the user
-        addMessage('bot', 'PDF cancelled. You can now upload a different file.');
-    }
+    //     // Add a message to inform the user
+    //     addMessage('bot', 'PDF cancelled. You can now upload a different file.');
+    // }
     
     // Add event listener for cancel button
     cancelBtn.addEventListener('click', cancelPdf);
@@ -282,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // 5. Remove the current PDF from session storage
-        sessionStorage.removeItem('pdf_filename');
+        sessionStorage.removeItem('pdf_filename');///////////////// we have to change pdf_filename  to pdf_filenames
         
         // 6. Reset PDF buttons state
         togglePdfButtons(false);
@@ -315,37 +376,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function sendMessage() {
-        const message = chatInput.value.trim();
-        const pdfFilename = sessionStorage.getItem('pdf_filename');
 
-        if (!message) return;
-        if (!pdfFilename) {
-            addMessage('bot', 'Please upload a PDF before asking questions.');
-            return;
-        }
-
-        addMessage('user', message);
-        chatInput.value = '';
-
-        try {
-            const response = await fetch('/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query: message, pdf_filename: pdfFilename })
-            });
-
-            const data = await response.json();
-            if (data.error) {
-                addMessage('bot', `Error: ${data.error}`);
-            } else {
-                addMessage('bot', data.response || 'No response from server.');
-            }
-        } catch (error) {
-            console.error('Chat Error:', error);
-            addMessage('bot', 'An error occurred while communicating with the server.');
-        }
-    }
 
     function addMessage(sender, text) {
         const messageDiv = document.createElement('div');
@@ -360,50 +391,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function uploadPDF() {
-        const file = fileInput.files[0];
-        if (!file) {
-            addMessage('bot', 'Please select a PDF file first.');
-            return;
-        }
-        
-        const formData = new FormData();
-        formData.append('pdf', file);
-
-        try {
-            const response = await fetch('/upload-pdf', {
-                method: 'POST',
-                body: formData
-            });
-
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data.error || 'Upload failed');
-            }
-
-            addMessage('bot', `PDF "${file.name}" uploaded successfully! You can now ask questions about it.`);
-            sessionStorage.setItem('pdf_filename', data.filename);
-            
-            // Update UI to show PDF is active
-            togglePdfButtons(true);
-            
-            // Hide welcome message if it's showing
-            if (welcomeContainer) {
-                welcomeContainer.style.display = 'none';
-            }
-            
-            // Scroll to input after successful upload
-            setTimeout(() => {
-                const chatInputContainer = document.querySelector('.chat-input-container');
-                chatInputContainer.scrollIntoView({ behavior: 'smooth' });
-                chatInput.focus();
-            }, 300);
-            
-        } catch (error) {
-            console.error('Upload Error:', error);
-            addMessage('bot', 'Failed to upload PDF.');
-        }
-    }
+    
 
     // Set up event listeners
     sendBtn.addEventListener('click', sendMessage);
@@ -414,16 +402,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     uploadBtn.addEventListener('click', uploadPDF);
     
-    // Display filename when selected
-    fileInput.addEventListener('change', function() {
-        const fileName = this.files[0] ? this.files[0].name : 'Choose file...';
-        document.getElementById('file-name').textContent = fileName;
-    });
     
-    // Check if there's already a PDF in session storage (page refresh case)
-    if (sessionStorage.getItem('pdf_filename')) {
-        togglePdfButtons(true);
-    }
+    
+
 });
 const userBtn = document.getElementById("user-button");
 const userDropdown = document.getElementById("user-dropdown");
@@ -463,80 +444,11 @@ function improveCode() {
     }
 
     // Improve the uploadPDF function to handle errors and display a success message
-    async function uploadPDF() {
-        try {
-            const file = fileInput.files[0];
-            if (!file) {
-                addMessage('bot', 'Please select a PDF file first.');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('pdf', file);
-
-            const response = await fetch('/upload-pdf', {
-                method: 'POST',
-                body: formData
-            });
-
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data.error || 'Upload failed');
-            }
-
-            addMessage('bot', `PDF "${file.name}" uploaded successfully! You can now ask questions about it.`);
-            sessionStorage.setItem('pdf_filename', data.filename);
-
-            // Update UI to show PDF is active
-            togglePdfButtons(true);
-
-            // Hide welcome message if it's showing
-            if (welcomeContainer) {
-                welcomeContainer.style.display = 'none';
-            }
-
-            // Scroll to input after successful upload
-            setTimeout(() => {
-                const chatInputContainer = document.querySelector('.chat-input-container');
-                chatInputContainer.scrollIntoView({ behavior: 'smooth' });
-                chatInput.focus();
-            }, 300);
-        } catch (error) {
-            handleError(error);
-        }
-    }
+    
+    
 
     // Improve the sendMessage function to handle errors and display a success message
-    async function sendMessage() {
-        try {
-            const message = chatInput.value.trim();
-            const pdfFilename = sessionStorage.getItem('pdf_filename');
-
-            if (!message) return;
-            if (!pdfFilename) {
-                addMessage('bot', 'Please upload a PDF before asking questions.');
-                return;
-            }
-
-            addMessage('user', message);
-            chatInput.value = '';
-
-            const response = await fetch('/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query: message, pdf_filename: pdfFilename })
-            });
-
-            const data = await response.json();
-            if (data.error) {
-                addMessage('bot', `Error: ${data.error}`);
-            } else {
-                addMessage('bot', data.response || 'No response from server.');
-            }
-        } catch (error) {
-            handleError(error);
-        }
-    }
+    
 }
    
 }
