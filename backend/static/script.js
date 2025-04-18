@@ -125,7 +125,7 @@ toggleText.addEventListener('click', () => {
             }
     
             const names = data.filenames || [];
-            addMessage('bot', `Uploaded ${names.length} PDF(s) successfully:\n- ${names.join('\n- ')}`);
+            addMessage('bot', `Uploaded ${names.length} PDF(s) Successfully :- ${names.join('\n- ')}`);
             
             // Save filenames for chat
             sessionStorage.setItem('pdf_filenames', JSON.stringify(names));
