@@ -35,6 +35,16 @@ fileInput.addEventListener('change', () => {
     renderFileList();
 });
 
+const sidebar = document.querySelector('.sidebar');
+const sidebarToggle = document.getElementById('sidebar-toggle');
+
+sidebarToggle.addEventListener('click', () => {
+  sidebar.classList.toggle('collapsed');
+  sidebarToggle.textContent = sidebar.classList.contains('collapsed') ? '⇨' : '⇦';
+});
+
+
+
 // Render list of selected files
 function renderFileList() {
     fileListContainer.innerHTML = '';
@@ -382,20 +392,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-
-
-    // function addMessage(sender, text) {
-    //     const messageDiv = document.createElement('div');
-    //     messageDiv.classList.add('message', sender);
-    //     messageDiv.innerHTML = `<p>${text}</p>`;
-    //     chatMessages.appendChild(messageDiv);
-    //     chatMessages.scrollTop = chatMessages.scrollHeight;
-        
-    //     // Hide welcome message when chat starts
-    //     if (welcomeContainer && chatMessages.children.length > 0) {
-    //         welcomeContainer.style.display = 'none';
-    //     }
-    // }
 
     
 
