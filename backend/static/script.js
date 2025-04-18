@@ -59,6 +59,18 @@ function renderFileList() {
     });
 }
 
+const toggleText = document.getElementById('toggle-control-text');
+const controlPanel = document.querySelector('.control-panel');
+
+let isCollapsed = false;
+
+toggleText.addEventListener('click', () => {
+    isCollapsed = !isCollapsed;
+    controlPanel.classList.toggle('collapsed', isCollapsed);
+    toggleText.textContent = isCollapsed ? 'Show More ▼' : 'Show Less ▲';
+});
+
+
 
 
     sendBtn.addEventListener('click', sendMessage);
@@ -199,6 +211,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
     };
+
+    
     
     // Add DOMPurify for sanitization
     const purifyScript = document.createElement('script');

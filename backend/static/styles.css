@@ -754,4 +754,25 @@ main {
 }
 
 
+.toggle-text {
+  text-align: center;
+  color: #28a745; /* same green vibe */
+  cursor: pointer;
+  padding: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  user-select: none;
+}
+
+.control-panel.collapsed {
+  max-height: 60px; /* or any smaller height you like */
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.control-panel {
+  transition: max-height 0.4s ease;
+}
+
+
 
