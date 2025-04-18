@@ -304,20 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Cancel PDF function
-    // function cancelPdf() {
-    //     // Clear the file input
-    //     fileInput.value = '';
-    //     document.getElementById('file-name').textContent = 'Choose file...';
-        
-    //     // Reset the PDF state
-    //     sessionStorage.removeItem('pdf_filename');
-    //     togglePdfButtons(false);
-        
-    //     // Add a message to inform the user
-    //     addMessage('bot', 'PDF cancelled. You can now upload a different file.');
-    // }
-    
+   
     // Add event listener for cancel button
     cancelBtn.addEventListener('click', cancelPdf);
     
