@@ -113,12 +113,7 @@ def load_pdf_text(pdf_path):
         print(f"Error loading PDF: {e}")
         return []
 
-# Home Page
-# @app.route("/")
-# def index():
-#     if current_user.is_authenticated:
-#         return render_template("index.html", email=current_user.email)
-#     return redirect(url_for("google.login"))
+
 
 @app.route("/")
 def index():
