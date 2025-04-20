@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Options - ChatWithPDF</title>
+</head>
+<body style="text-align:center; padding-top: 100px; font-family: Arial, sans-serif;">
+  <h1>Welcome to ChatWithPDF 👋</h1>
+  <p>Please choose a login method:</p>
+
+  <!-- Google Login -->
+  <a href="{{ url_for('google.login') }}">
+    <button style="margin: 10px; padding: 10px 20px;">Sign in with Google</button>
+  </a>
+
+  <!-- GitHub Login -->
+  <a href="{{ url_for('github.login') }}">
+    <button style="margin: 10px; padding: 10px 20px;">Sign in with GitHub</button>
+  </a>
+</body>
+</html>
