@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatwithPDF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <!-- Mobile Menu Toggle Button -->
+<button class="menu-toggle-btn" id="mobile-menu-toggle">☰</button>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h2 class="sidebar-title" style="padding: 10px">ChatwithPDF</h2>
+                <div id="sidebar-toggle" class="sidebar-toggle">⇦</div>
+            </div>
+            <!-- <div class="sidebar-divider"></div> -->
+            <h3 class="sidebar-heading">Recent Chats</h3>
+            <div class="chat-history" id="chat-history">
+                <!-- Chat history items will be added here -->
+            </div>
+            <div class="new-chat-btn">
+                <button id="new-chat"><i class="fas fa-plus"></i> <span class="chat-text">New Chat</span></button>
+            </div>
+        </div>
+        
+  
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header>
+                <div class="header-title">
+                    <h1>Chat with your PDF</h1>
+                    <p>Upload a PDF and start asking questions</p>
+                </div>
+                <div class="user-profile">
+                    {% if user_data.photo %}
+                        <button class="user-avatar" id="user-button">
+                            <img src="{{ user_data.photo }}" alt="User Photo" style="border-radius: 50%; width: 40px; height: 40px;">
+                        </button>
+                    {% else %}
+                        <button class="user-avatar" id="user-button">
+                            {{ user_data.name|default('HP', true)|first|upper }}{{ user_data.name|default('HP', true)|split(' ')|last|first|upper if ' ' in user_data.name|default('', true) }}
+                        </button>
+                    {% endif %}
+                
+                    <div class="user-dropdown" id="user-dropdown">
+                        <ul>
+                            <li><i class="fas fa-user-cog"></i> Settings</li>
+                            <li><i class="fas fa-crown"></i> Buy Premium</li>
+                            <li id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                
+            </header>
+
+            <!-- Chat Interface -->
+            <main>
+                   <div class="control-panel ">
+  <div class="panel-content">
+    <div class="model-selection">
+      <label for="model">AI Model</label>
+      <div class="select-wrapper">
+        <select id="model">
+          <option value="">Select AI Model</option>
+          <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+          <option value="gpt-4">GPT-4</option>
+          <option value="claude-3.7-sonnet">Claude 3.7 Sonnet</option>
+          <option value="llama-3.3">Llama 3.3</option>
+          <option value="deepseek-grm">DeepSeek GRM</option>
+        </select>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+
+    <div class="pdf-upload">
+      <label>PDF Documents (Max 4)</label>
+      <div id="file-list" class="file-list"></div>
+
+      <div class="upload-container">
+        <input type="file" id="pdf-file" accept=".pdf" multiple style="display: none;" />
+        <div class="file-input-label" id="add-files-btn">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <span>Add files</span>
+        </div>
+        <button type="submit" id="upload-btn">Upload</button>
+
+        <div class="drag-drop-overlay" id="drag-drop-overlay">
+          <div class="drag-drop-content">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <h3>Drop PDFs here</h3>
+            <p>Upload up to 4 PDF files</p>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toggle-control-text" class="toggle-text">Show Less ▲</div>
+</div>
+
+
+
+                <!-- Welcome message or empty state -->
+                <div class="welcome-container" id="welcome-container">
+                    <div class="welcome-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h2>Start a conversation</h2>
+                    <p>Upload a PDF and ask questions about its content</p>
+                </div>
+
+                <!-- Chat Messages -->
+                <div class="chat-messages" id="chat-messages"></div>
+
+                <!-- Chat Input -->
+                <div class="chat-input-container">
+                    <div class="chat-input">
+                        <input type="text" id="chat-input" placeholder="Ask a question about the PDF...">
+                        <button type="submit" id="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+
+
+</body>
+</html>
