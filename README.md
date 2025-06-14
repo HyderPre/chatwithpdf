@@ -1,3 +1,8 @@
+# 💬 ChatWithPDF – Interact with Your PDFs Using AI
+
+[![Live Site](https://img.shields.io/badge/Live_Website-Visit-green?style=for-the-badge&logo=google-chrome)](https://chatwithpdf.infinityfreeapp.com)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Source_Code-000?style=for-the-badge&logo=github)](https://github.com/HyderPre/chatwithpdfweb)
+
 # ChatWithPDF
 
 **ChatWithPDF** is a Flask-based web application that allows users to interact with PDF documents using AI. With support for Google and GitHub login, drag-and-drop uploads, multiple PDF processing, and recent chat history, this app provides an intuitive interface to explore and query documents efficiently.
