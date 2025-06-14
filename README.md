@@ -1,6 +1,6 @@
 # 💬 ChatWithPDF – Interact with Your PDFs Using AI
 
-[![Live Site](https://img.shields.io/badge/Live_Website-Visit-green?style=for-the-badge&logo=google-chrome)](https://chatwithpdf.infinityfreeapp.com)
+[![Live Site](https://img.shields.io/badge/Live_Website-Visit-green?style=for-the-badge&logo=google-chrome)](https://chat-chatwithpdf.zone.id/)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Source_Code-000?style=for-the-badge&logo=github)](https://github.com/HyderPre/chatwithpdfweb)
 
 # ChatWithPDF
