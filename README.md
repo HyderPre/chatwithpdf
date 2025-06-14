@@ -1,7 +1,14 @@
-# 💬 ChatWithPDF – Interact with Your PDFs Using AI
+# 💬 ChatWithPDF – Smart PDF Interaction Platform
 
-[![Live Site](https://img.shields.io/badge/Live_Website-Visit-green?style=for-the-badge&logo=google-chrome)](https://chat-chatwithpdf.zone.id/)
-[![GitHub Repo](https://img.shields.io/badge/GitHub-Source_Code-000?style=for-the-badge&logo=github)](https://github.com/HyderPre/chatwithpdfweb)
+📌 A two-part system to interact with your PDF documents using AI.
+
+🌐 **Frontend Website (Landing Page):**  
+🔗 [chatwithpdf.infinityfreeapp.com](https://chatwithpdf.infinityfreeapp.com)  
+📁 [Source Code](https://github.com/HyderPre/chatwithpdfweb)
+
+🤖 **AI Chatbot (PDF + GPT backend):**  
+🔗 [chat-chatwithpdf.zone.id](https://chat-chatwithpdf.zone.id)  
+📁 [Source Code](https://github.com/HyderPre/chatwithpdf)
 
 # ChatWithPDF
 
