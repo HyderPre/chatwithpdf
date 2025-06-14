@@ -60,45 +60,61 @@ flask run
 ```
 Open your browser and go to: http://localhost:5000
 
-🧪 How to Use<br>
-Log in using Google or GitHub.<br>
+## 🧪 How to Use
 
-Upload up to 4 PDFs using the drag-and-drop interface.<br>
+1. 🔐 Log in securely using **Google** or **GitHub** (OAuth 2.0)
+2. 📄 Upload up to **4 PDF files** using the intuitive **drag-and-drop** interface
+3. 💬 Type your questions in **natural language**
+4. 🧠 View accurate, AI-generated responses and scroll through your **recent chats**
+5. 🔁 Continue the conversation or upload new PDFs anytime
 
-Ask questions in plain language.<br>
+---
 
-View responses and scroll through recent chats.<br>
+## 📦 Tech Stack
 
-Continue the conversation or upload new PDFs anytime.<br>
+- 🐍 **Backend**: Python Flask  
+- 🤖 **AI Engine**: OpenAI API (GPT models)  
+- 📄 **PDF Parsing**: pdfplumber  
+- 🔐 **Authentication**: OAuth 2.0 via Google & GitHub (Authlib)  
+- 🎨 **Frontend**: HTML, CSS, JavaScript  
 
-📦 Tech Stack<br><br>
-Backend: Flask (Python)<br>
+---
 
-AI: OpenAI API (GPT)  <br>
+## ✅ Testing Checklist
 
-PDF Parsing: PyMuPDF or pdfplumber<br>
+- ✅ Google & GitHub OAuth login functioning correctly  
+- ✅ Upload and preview support for **up to 4 PDFs**  
+- ✅ Accurate, **context-aware** chat responses  
+- ✅ Fully working **drag-and-drop** file upload  
+- ✅ **Recent chats** preserved across session  
 
-Auth: OAuth2 with Google and GitHub (Authlib)<br>
+---
 
-Frontend: HTML, CSS, JavaScript<br>
+## 🤝 Contributing
 
-✅ Testing Checklist<br><br>
- Google & GitHub Login working<br>
+We welcome contributions from the community!  
+To contribute:
 
- Upload and preview up to 4 PDFs<br>
+1. 🍴 Fork this repository  
+2. 🌿 Create a new feature branch (`git checkout -b feature-name`)  
+3. 🛠️ Make your changes and **test locally**  
+4. ✅ Write clear and meaningful commit messages  
+5. 📩 Open a pull request with a detailed explanation  
 
- Chat responses accurate and contextual<br>
+Let’s build something useful together! 🙌
 
- Drag-and-drop works for multiple PDFs<br>
+---
 
- Recent chats preserved and displayed<br>
+## 📄 License
 
-🤝 Contributing<br>
-Contributions are welcome!<br>
-Fork this repo, create a feature branch, and open a pull request.<br>
-Make sure to include clear commit messages and test your changes locally.<br>
+You **must obtain written permission** before copying, reusing, modifying, or distributing any part of this project for personal, academic, or commercial purposes.
 
-📄 License<br>
-This project is licensed under the MIT License – see the LICENSE file for details.<br>
+📧 Contact the authors:  
+- **Hyder Presswala** – hyder.p@somaiya.edu  
+- **Hamza Kapasi** – hamza.kapasi@somaiya.edu
+
+⚠️ Unauthorized use is strictly prohibited.
 
 
+## #️⃣ Hashtags for SEO
+#ChatWithPDF #PDFChatbot #ChatWithDocuments #PDFtoText #PDFQuery #PDFInsights #PDFSummarizer #AskYourPDF #AIPDFReader #OpenAIPDF #FlaskApp #FlaskWebApp #PythonFlask #FlaskProject #ChatPDFApp #ChatWithPDFs #PDFBot #OpenAIIntegration #OAuthLogin #GoogleLogin #GitHubLogin #SecureLogin #MultipleFileUpload #DragAndDropUpload #RecentChats #PDFSearch #AIWebApp #NLPApp #OpenAIPowered #NaturalLanguageChat #SmartDocumentReader #PDFQA #AskDocs #FlaskOAuth #AIFlaskApp #AIPoweredApp #GPTIntegration #OpenAISDK #LLMChatApp #PythonWebProject #AcademicTool #StudyAssistant #DocumentChatbot #StudentTool #FlaskFrontend #ResponsiveFlaskApp #JinjaTemplates #FlaskAuth #FlaskOAuth2 #SemanticSearchPDF #MultifileUpload #DragDropPDF #ChatbotWebApp #ModernWebApp #InteractivePDFTool #PDFChatSystem #ReadPDFWithAI #ChatWithPDFFiles #FlaskAIApp #FileUploadFlask #OpenSourceFlask #PDFInterface #CollegeProject #FinalYearProject #HackathonProject #FlaskHackathon #OpenAIChatbot #StudyWithAI #EduTechTool #AIDocumentChat #SmartPDFUploader #FlaskBasedApp #MinimalWebApp #CleanUI #AIUseCase #OpenAIAssistant #EducationalAI #FileChatAI #IntelligentChatbot #DocumentAssistant #PythonMiniProject #OpenSourceTool #FlaskOpenAI #OpenAIFlaskBot #PDFBotAI #ChatPDF #FlaskGPT #FlaskAppWithLogin #OAuth2Login #FileReaderAI #AskMyPDF #QueryPDF #SummarizePDF #FlaskWebTool #HTMLCSSJSFlask #FlaskUploadTool #UploadPDFandChat #DragDropFiles #LoginWithGoogle #LoginWithGitHub #PythonDocumentBot #InteractiveDocs #DocsWithAI #LLMWebApp #PDFAIChat #ChatAssistant #SmartPDFTool #OpenSourceAIApp #AIAssistedReading #FlaskToolbox #EduPDFChat #FlaskUIApp #FlaskPDFProcessor #CustomPDFBot #ContextAwareChat #RecentChatFlask #DocumentInteraction #LLMWithPDF #AIFlaskLogin #FlaskUIMagic #FlaskProjectTemplate #OpenAIBot #FlaskFormApp #AIChatPlatform #GPTPDFAssistant #SmartReaderWebApp #OpenAIDocumentBot #PDFAnalyzerAI #PythonOAuthApp #FlaskJinjaApp #UploadNChat #PDFConverterBot #EdTechFlaskTool #PythonAIProjects #ChatBotFlaskOpenAI #OpenAIInWebApp #FlaskBeginnerProject #OpenAIAssistantBot #DragDropChat #FileUploadTool #InteractiveDocsApp #OpenAIPDFChat #EducationalPDFChat #AskYourDocuments #PDFChatSolution #FlaskGPTBot #SmartPDFApp #SimplePDFChatApp #MiniFlaskProject #GitHubTrendingProject #AIPDFAnalyzer
